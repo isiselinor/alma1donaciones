@@ -14,7 +14,11 @@
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
        background:var(--bg);color:var(--texto);line-height:1.5}
   .wrap{max-width:920px;margin:0 auto;padding:16px}
-  header.top{text-align:center;padding:28px 16px 8px}
+  .langsw{display:flex;justify-content:flex-end;gap:6px;padding-top:4px}
+  .langsw button{border:1px solid var(--linea);background:var(--blanco);color:var(--suave);
+       border-radius:999px;padding:4px 13px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .1s}
+  .langsw button.active{background:var(--verde);color:#fff;border-color:var(--verde)}
+  header.top{text-align:center;padding:14px 16px 8px}
   .logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
   .logo .emoji{font-size:1.8rem;line-height:1}
   .logo h1{margin:0;font-size:1.6rem;font-weight:800;letter-spacing:.5px;color:var(--verde);text-transform:uppercase}
@@ -103,84 +107,89 @@
 <body>
 <div class="wrap">
 
+  <div class="langsw">
+    <button id="lang-es" onclick="setLang('es')">ES</button>
+    <button id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+
   <header class="top">
-    <div class="logo"><span class="emoji">🇻🇪</span><h1>Dona Directo a Civiles</h1></div>
-    <p>Gracias por estar con Venezuela.</p>
-    <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
+    <div class="logo"><span class="emoji">🇻🇪</span><h1 data-i18n="brand">Dona Directo a Civiles</h1></div>
+    <p data-i18n="tagline">Gracias por estar con Venezuela.</p>
+    <a class="btn-donar" data-i18n="donate" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
   </header>
 
   <!-- CÓMO DONAR (visible siempre, no depende de los datos) -->
   <section class="card como">
-    <h2>¿Cómo donar? En 3 pasos</h2>
+    <h2 data-i18n="howTitle">¿Cómo donar? En 3 pasos</h2>
     <div class="pasos">
       <div class="paso">
         <div class="n">1</div>
         <div>
-          <h3>Pulsa "Quiero donar"</h3>
-          <p>Se abre un formulario. Completa tu nombre completo, el monto y el código de la operación.</p>
+          <h3 data-i18n="step1h">Pulsa "Quiero donar"</h3>
+          <p data-i18n="step1p">Se abre un formulario. Completa tu nombre completo, el monto y el código de la operación.</p>
         </div>
       </div>
       <div class="paso">
         <div class="n">2</div>
         <div>
-          <h3>Realiza tu aporte</h3>
-          <p>Transfiere o paga por el medio que prefieras y envía el formulario.</p>
+          <h3 data-i18n="step2h">Realiza tu aporte</h3>
+          <p data-i18n="step2p">Transfiere o paga por el medio que prefieras y envía el formulario.</p>
         </div>
       </div>
       <div class="paso">
         <div class="n">3</div>
         <div>
-          <h3>Sigue tu donación</h3>
-          <p>Busca tu nombre más abajo, en "Buscar mi donación", y revisa su estado.</p>
+          <h3 data-i18n="step3h">Sigue tu donación</h3>
+          <p data-i18n="step3p">Busca tu nombre más abajo, en "Buscar mi donación", y revisa su estado.</p>
         </div>
       </div>
     </div>
     <div class="leyenda">
-      <span class="item"><span class="pill pend">⏳ Pendiente</span> la estamos confirmando</span>
-      <span class="item"><span class="pill ok">✓ Verificada</span> ya suma al fondo</span>
+      <span class="item"><span class="pill pend" data-i18n="pillPend">⏳ Pendiente</span> <span data-i18n="legendPend">la estamos confirmando</span></span>
+      <span class="item"><span class="pill ok" data-i18n="pillOk">✓ Verificada</span> <span data-i18n="legendOk">ya suma al fondo</span></span>
     </div>
     <div class="cta">
-      <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
+      <a class="btn-donar" data-i18n="donate" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
     </div>
   </section>
 
-  <div id="estado" class="estado">Cargando datos…</div>
+  <div id="estado" class="estado" data-i18n="loading">Cargando datos…</div>
   <div id="contenido" style="display:none">
 
     <!-- TOTAL GLOBAL -->
     <section class="card global">
-      <h2>Total global en dólares</h2>
+      <h2 data-i18n="globalTitle">Total global en dólares</h2>
       <div class="filas">
-        <div class="fila"><span>Total recaudado</span><span class="num" id="g-recaudado">—</span></div>
-        <div class="fila"><span>(−) Egresos</span><span class="num" id="g-egresos">—</span></div>
-        <div class="fila saldo"><span>Saldo disponible</span><span class="num" id="g-saldo">—</span></div>
+        <div class="fila"><span data-i18n="gRaised">Total recaudado</span><span class="num" id="g-recaudado">—</span></div>
+        <div class="fila"><span data-i18n="gExpenses">(−) Egresos</span><span class="num" id="g-egresos">—</span></div>
+        <div class="fila saldo"><span data-i18n="gBalance">Saldo disponible</span><span class="num" id="g-saldo">—</span></div>
       </div>
     </section>
 
     <!-- POR MONEDA -->
     <section class="card">
-      <h2>Recaudado por moneda</h2>
+      <h2 data-i18n="byCurrency">Recaudado por moneda</h2>
       <div class="monedas" id="monedas"></div>
     </section>
 
     <!-- BUSCADOR -->
     <section class="card">
-      <h2>Buscar mi donación</h2>
+      <h2 data-i18n="searchTitle">Buscar mi donación</h2>
       <input id="buscar" type="text" placeholder="Escribe tu nombre completo…" autocomplete="off" />
-      <div class="res" id="resultados"><div class="vacio">Escribe tu nombre para ver el estado de tu donación.</div></div>
+      <div class="res" id="resultados"></div>
     </section>
 
     <!-- EGRESOS -->
     <section class="card">
-      <h2>En qué se gastó el dinero</h2>
+      <h2 data-i18n="expensesTitle">En qué se gastó el dinero</h2>
       <div id="egresos"></div>
     </section>
 
   </div>
 
   <footer>
-    <p>Sistema creado por <a href="https://www.instagram.com/isiselinor/" target="_blank" rel="noopener">Isis Elinor</a></p>
-    <p>Responsable de la recaudación y administración:
+    <p><span data-i18n="footerCreator">Sistema creado por</span> <a href="https://www.instagram.com/isiselinor/" target="_blank" rel="noopener">Isis Elinor</a></p>
+    <p><span data-i18n="footerResp">Responsable de la recaudación y administración:</span>
        <a href="https://www.instagram.com/almasofiasevilla/" target="_blank" rel="noopener">Alma Sofia Sevilla</a></p>
     <p id="actualizado" style="font-size:.78rem"></p>
   </footer>
@@ -195,16 +204,102 @@
    ============================================================ */
 var WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyCurHHLJRBqIlhFy-epbuacUZx3XaBhsD17qBO0fhwRlqrIpLon5LIFkKt247YTVfvmA/exec";
 
+/* ============================================================
+   TRADUCCIONES  (ES / EN)
+   ============================================================ */
+var I18N = {
+  es: {
+    brand: "Dona Directo a Civiles",
+    tagline: "Gracias por estar con Venezuela.",
+    donate: "💚 Quiero donar",
+    howTitle: "¿Cómo donar? En 3 pasos",
+    step1h: 'Pulsa "Quiero donar"',
+    step1p: "Se abre un formulario. Completa tu nombre completo, el monto y el código de la operación.",
+    step2h: "Realiza tu aporte",
+    step2p: "Transfiere o paga por el medio que prefieras y envía el formulario.",
+    step3h: "Sigue tu donación",
+    step3p: 'Busca tu nombre más abajo, en "Buscar mi donación", y revisa su estado.',
+    pillPend: "⏳ Pendiente",
+    pillOk: "✓ Verificada",
+    legendPend: "la estamos confirmando",
+    legendOk: "ya suma al fondo",
+    loading: "Cargando datos…",
+    globalTitle: "Total global en dólares",
+    gRaised: "Total recaudado",
+    gExpenses: "(−) Egresos",
+    gBalance: "Saldo disponible",
+    byCurrency: "Recaudado por moneda",
+    searchTitle: "Buscar mi donación",
+    searchPlaceholder: "Escribe tu nombre completo…",
+    searchHint: "Escribe tu nombre para ver el estado de tu donación.",
+    searchNone: "No encontramos donaciones con ese nombre.",
+    expensesTitle: "En qué se gastó el dinero",
+    noCurrency: "Todavía no hay donaciones verificadas.",
+    noExpenses: "Todavía no se cargaron egresos.",
+    footerCreator: "Sistema creado por",
+    footerResp: "Responsable de la recaudación y administración:",
+    updated: "Actualizado:",
+    expenseFallback: "Gasto",
+    codeLabel: "cód.",
+    errConfig: "Falta configurar la URL del Apps Script. Editá la variable WEBAPP_URL en index.html.",
+    errRead: "No se pudieron leer los datos. ",
+    errConn: 'No se pudo conectar con el Apps Script. Revisá que esté publicado para "Cualquier persona".',
+    countDon: function(n){ return n + " donación" + (n===1?"":"es") + " verificada" + (n===1?"":"s"); }
+  },
+  en: {
+    brand: "Donate Directly to Civilians",
+    tagline: "Thank you for standing with Venezuela.",
+    donate: "💚 I want to donate",
+    howTitle: "How to donate in 3 steps",
+    step1h: 'Tap "I want to donate"',
+    step1p: "A form opens. Enter your full name, the amount and the transaction code.",
+    step2h: "Make your contribution",
+    step2p: "Transfer or pay through your preferred method and submit the form.",
+    step3h: "Track your donation",
+    step3p: 'Search your name below, under "Find my donation", and check its status.',
+    pillPend: "⏳ Pending",
+    pillOk: "✓ Verified",
+    legendPend: "we're confirming it",
+    legendOk: "already counts toward the fund",
+    loading: "Loading data…",
+    globalTitle: "Global total in dollars",
+    gRaised: "Total raised",
+    gExpenses: "(−) Expenses",
+    gBalance: "Available balance",
+    byCurrency: "Raised by currency",
+    searchTitle: "Find my donation",
+    searchPlaceholder: "Type your full name…",
+    searchHint: "Type your name to see the status of your donation.",
+    searchNone: "No donations found with that name.",
+    expensesTitle: "How the money was spent",
+    noCurrency: "No verified donations yet.",
+    noExpenses: "No expenses recorded yet.",
+    footerCreator: "System created by",
+    footerResp: "In charge of fundraising and administration:",
+    updated: "Updated:",
+    expenseFallback: "Expense",
+    codeLabel: "code",
+    errConfig: "The Apps Script URL is not set. Edit the WEBAPP_URL variable in index.html.",
+    errRead: "Could not load the data. ",
+    errConn: 'Could not connect to the Apps Script. Make sure it is published for "Anyone".',
+    countDon: function(n){ return n + " verified donation" + (n===1?"":"s"); }
+  }
+};
+
+var LANG = "es";
 var DATA = null;
+
+function t(k){ return (I18N[LANG] && I18N[LANG][k] !== undefined) ? I18N[LANG][k] : k; }
+function locale(){ return LANG === "en" ? "en-US" : "es-AR"; }
 
 /* --- formato --- */
 function usd(n){
   if(n===null||n===undefined) return "—";
-  return "US$ " + Number(n).toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+  return "US$ " + Number(n).toLocaleString(locale(),{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function moneda(n){
   if(n===null||n===undefined) return "—";
-  return Number(n).toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+  return Number(n).toLocaleString(locale(),{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function esc(s){
   return String(s===null||s===undefined?"":s)
@@ -214,10 +309,36 @@ function quitarAcentos(s){
   return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
 }
 
+/* --- idioma --- */
+function setLang(lang){
+  LANG = (lang === "en") ? "en" : "es";
+  try{ localStorage.setItem("ddc_lang", LANG); }catch(e){}
+  aplicarIdioma();
+}
+function aplicarIdioma(){
+  document.documentElement.lang = LANG;
+  document.title = t("brand");
+  document.getElementById("lang-es").classList.toggle("active", LANG==="es");
+  document.getElementById("lang-en").classList.toggle("active", LANG==="en");
+  // Textos estáticos
+  var nodos = document.querySelectorAll("[data-i18n]");
+  for(var i=0;i<nodos.length;i++){
+    var k = nodos[i].getAttribute("data-i18n");
+    if(I18N[LANG][k] !== undefined) nodos[i].textContent = I18N[LANG][k];
+  }
+  // Placeholder del buscador
+  document.getElementById("buscar").placeholder = t("searchPlaceholder");
+  // Estado de carga (si todavía no llegaron datos)
+  var est = document.getElementById("estado");
+  if(DATA===null && est.querySelector(".error")===null){ est.textContent = t("loading"); }
+  // Si ya hay datos, re-render dinámico
+  if(DATA){ render(); buscar(); }
+}
+
 /* --- JSONP --- */
 function cargar(){
   if(WEBAPP_URL.indexOf("PEGA_AQUI")!==-1){
-    mostrarError('Falta configurar la URL del Apps Script. Editá la variable WEBAPP_URL en index.html.');
+    mostrarError(t("errConfig"));
     return;
   }
   var cb = "cbDonaciones_" + Date.now();
@@ -225,15 +346,16 @@ function cargar(){
     delete window[cb];
     if(s.parentNode) s.parentNode.removeChild(s);
     if(!data || data.ok===false){
-      mostrarError('No se pudieron leer los datos. ' + (data && data.error ? data.error : ''));
+      mostrarError(t("errRead") + (data && data.error ? data.error : ""));
       return;
     }
     DATA = data;
     render();
+    buscar();
   };
   var s = document.createElement("script");
   s.src = WEBAPP_URL + (WEBAPP_URL.indexOf("?")===-1?"?":"&") + "callback=" + cb + "&t=" + Date.now();
-  s.onerror = function(){ mostrarError('No se pudo conectar con el Apps Script. Revisá que esté publicado para "Cualquier persona".'); };
+  s.onerror = function(){ mostrarError(t("errConn")); };
   document.body.appendChild(s);
 }
 
@@ -242,7 +364,7 @@ function mostrarError(msg){
   e.innerHTML = '<div class="error">'+esc(msg)+'</div>';
 }
 
-/* --- render --- */
+/* --- render dinámico --- */
 function render(){
   document.getElementById("estado").style.display = "none";
   document.getElementById("contenido").style.display = "block";
@@ -250,19 +372,19 @@ function render(){
   document.getElementById("g-recaudado").textContent = usd(DATA.totalRecaudadoUSD);
   document.getElementById("g-egresos").textContent   = usd(DATA.totalEgresosUSD);
   document.getElementById("g-saldo").textContent     = usd(DATA.saldoUSD);
-  document.getElementById("actualizado").textContent = "Actualizado: " + (DATA.actualizado||"");
+  document.getElementById("actualizado").textContent = t("updated") + " " + (DATA.actualizado||"");
 
   // Monedas
   var m = document.getElementById("monedas");
   if(!DATA.porMoneda || !DATA.porMoneda.length){
-    m.innerHTML = '<div class="vacio">Todavía no hay donaciones verificadas.</div>';
+    m.innerHTML = '<div class="vacio">'+t("noCurrency")+'</div>';
   } else {
     m.innerHTML = DATA.porMoneda.map(function(x){
       return '<div class="moneda">'+
         '<div class="cod">'+esc(x.codigo)+'</div>'+
         '<div class="orig">'+moneda(x.original)+'</div>'+
         '<div class="usd">≈ '+usd(x.usd)+'</div>'+
-        '<div class="cnt">'+x.cantidad+' donación'+(x.cantidad===1?'':'es')+' verificada'+(x.cantidad===1?'':'s')+'</div>'+
+        '<div class="cnt">'+esc(I18N[LANG].countDon(x.cantidad))+'</div>'+
       '</div>';
     }).join("");
   }
@@ -270,12 +392,12 @@ function render(){
   // Egresos por categoría
   var ce = document.getElementById("egresos");
   if(!DATA.categorias || !DATA.categorias.length){
-    ce.innerHTML = '<div class="vacio">Todavía no se cargaron egresos.</div>';
+    ce.innerHTML = '<div class="vacio">'+t("noExpenses")+'</div>';
   } else {
     ce.innerHTML = DATA.categorias.map(function(c){
       var items = c.items.map(function(it){
         return '<div class="egreso">'+
-          '<div class="det"><div>'+esc(it.comercio||it.descripcion||"Gasto")+'</div>'+
+          '<div class="det"><div>'+esc(it.comercio||it.descripcion||t("expenseFallback"))+'</div>'+
             '<div class="sub">'+esc(it.fecha)+(it.descripcion&&it.comercio?' · '+esc(it.descripcion):'')+'</div></div>'+
           '<div class="montobox"><div class="usd">'+usd(it.usd)+'</div>'+
             '<div class="orig">'+esc(it.moneda)+' '+moneda(it.original)+'</div></div>'+
@@ -286,33 +408,31 @@ function render(){
         '<div class="items">'+items+'</div></details>';
     }).join("");
   }
-
-  // Buscador
-  var input = document.getElementById("buscar");
-  input.addEventListener("input", buscar);
 }
 
 function buscar(){
-  var q = quitarAcentos(document.getElementById("buscar").value);
+  var input = document.getElementById("buscar");
   var cont = document.getElementById("resultados");
+  if(!DATA){ cont.innerHTML = ""; return; }
+  var q = quitarAcentos(input.value);
   if(!q){
-    cont.innerHTML = '<div class="vacio">Escribe tu nombre para ver el estado de tu donación.</div>';
+    cont.innerHTML = '<div class="vacio">'+t("searchHint")+'</div>';
     return;
   }
   var hits = (DATA.donaciones||[]).filter(function(d){
     return quitarAcentos(d.nombre).indexOf(q)!==-1;
   });
   if(!hits.length){
-    cont.innerHTML = '<div class="vacio">No encontramos donaciones con ese nombre.</div>';
+    cont.innerHTML = '<div class="vacio">'+t("searchNone")+'</div>';
     return;
   }
   cont.innerHTML = hits.map(function(d){
     var pill = d.verificada
-      ? '<span class="pill ok">✓ Verificada</span>'
-      : '<span class="pill pend">⏳ Pendiente</span>';
+      ? '<span class="pill ok">'+t("pillOk")+'</span>'
+      : '<span class="pill pend">'+t("pillPend")+'</span>';
     return '<div class="don">'+
       '<div><div class="nombre">'+esc(d.nombre)+'</div>'+
-        '<div class="info">'+esc(d.metodo)+' · '+esc(d.fecha)+(d.codigo?' · cód. '+esc(d.codigo):'')+'</div>'+
+        '<div class="info">'+esc(d.metodo)+' · '+esc(d.fecha)+(d.codigo?' · '+t("codeLabel")+' '+esc(d.codigo):'')+'</div>'+
         '<div>'+pill+'</div></div>'+
       '<div class="montobox"><div class="monto">'+esc(d.moneda)+' '+moneda(d.monto)+'</div>'+
         '<div class="info">≈ '+usd(d.usd)+'</div></div>'+
@@ -320,7 +440,13 @@ function buscar(){
   }).join("");
 }
 
-cargar();
+/* --- init --- */
+(function(){
+  try{ var saved = localStorage.getItem("ddc_lang"); if(saved) LANG = saved; }catch(e){}
+  document.getElementById("buscar").addEventListener("input", buscar);
+  aplicarIdioma();
+  cargar();
+})();
 </script>
 </body>
 </html>
