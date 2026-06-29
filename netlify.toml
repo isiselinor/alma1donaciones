@@ -1,0 +1,17 @@
+# Configuración de Netlify para el sitio de donaciones (sitio estático, sin build)
+[build]
+  publish = "."
+  command = ""
+
+# Cache corto en el HTML para que los visitantes vean cambios al instante
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Seguridad básica
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

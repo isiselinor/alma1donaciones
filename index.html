@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Donaciones — Transparencia del fondo</title>
+<style>
+  :root{
+    --verde:#274e13; --verde-claro:#d9ead3; --verde-medio:#6aa84f;
+    --gris:#f3f3f3; --texto:#1f2937; --suave:#6b7280; --linea:#e5e7eb;
+    --rojo:#b45309; --bg:#f7f8f6; --blanco:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--texto);line-height:1.5}
+  .wrap{max-width:920px;margin:0 auto;padding:16px}
+  header.top{text-align:center;padding:28px 16px 8px}
+  header.top h1{margin:0 0 4px;font-size:1.6rem;color:var(--verde)}
+  header.top p{margin:0;color:var(--suave);font-size:.9rem}
+  .btn-donar{display:inline-block;background:var(--verde);color:#fff;text-decoration:none;
+       padding:14px 32px;border-radius:999px;font-weight:700;font-size:1.1rem;margin:18px 0 6px;
+       box-shadow:0 4px 14px rgba(39,78,19,.25);transition:transform .1s,box-shadow .1s}
+  .btn-donar:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(39,78,19,.35)}
+  .card{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:18px 20px;margin:16px 0;
+        box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card h2{margin:0 0 14px;font-size:1.1rem;color:var(--verde);border-bottom:2px solid var(--verde-claro);
+        padding-bottom:8px}
+  /* total global */
+  .global{background:linear-gradient(135deg,var(--verde),#3b6b1f);color:#fff;border:none}
+  .global h2{color:#fff;border-bottom-color:rgba(255,255,255,.25)}
+  .global .filas{display:grid;gap:6px}
+  .global .fila{display:flex;justify-content:space-between;align-items:baseline}
+  .global .saldo{margin-top:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.3);
+        font-size:1.5rem;font-weight:800}
+  .global .num{font-variant-numeric:tabular-nums}
+  /* monedas */
+  .monedas{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  .moneda{background:var(--gris);border-radius:12px;padding:14px;text-align:center}
+  .moneda .cod{font-weight:700;color:var(--verde);font-size:1.1rem}
+  .moneda .orig{font-size:1.35rem;font-weight:800;margin:4px 0}
+  .moneda .usd{color:var(--suave);font-size:.95rem}
+  .moneda .cnt{color:var(--suave);font-size:.8rem;margin-top:6px}
+  /* buscador */
+  #buscar{width:100%;padding:12px 14px;border:1px solid var(--linea);border-radius:10px;font-size:1rem}
+  .res{margin-top:12px;display:grid;gap:8px}
+  .don{border:1px solid var(--linea);border-radius:10px;padding:10px 12px;display:flex;
+       justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .don .info{font-size:.85rem;color:var(--suave)}
+  .don .nombre{font-weight:600;color:var(--texto)}
+  .don .montobox{text-align:right;white-space:nowrap}
+  .don .monto{font-weight:700}
+  .pill{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:999px;font-weight:600}
+  .pill.ok{background:var(--verde-claro);color:var(--verde)}
+  .pill.pend{background:#fef3c7;color:#92400e}
+  .vacio{color:var(--suave);font-size:.9rem;padding:8px 2px}
+  /* egresos */
+  .cat{border:1px solid var(--linea);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  .cat summary{cursor:pointer;list-style:none;padding:12px 14px;background:var(--gris);
+       display:flex;justify-content:space-between;align-items:center;font-weight:600}
+  .cat summary::-webkit-details-marker{display:none}
+  .cat summary .tot{color:var(--verde);font-weight:800}
+  .cat .items{padding:4px 14px 12px}
+  .egreso{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--linea);flex-wrap:wrap}
+  .egreso:last-child{border-bottom:none}
+  .egreso .det{font-size:.85rem}
+  .egreso .det .sub{color:var(--suave);font-size:.78rem}
+  .egreso .montobox{text-align:right;white-space:nowrap}
+  .egreso .usd{font-weight:700}
+  .egreso .orig{color:var(--suave);font-size:.75rem}
+  footer{text-align:center;padding:28px 16px 40px;color:var(--suave);font-size:.85rem}
+  footer a{color:var(--verde);font-weight:600;text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .estado{text-align:center;color:var(--suave);padding:10px}
+  .error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:10px;padding:12px;margin:12px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Fondo de donaciones</h1>
+    <p>Transparencia en tiempo real — todo el dinero consolidado en dólares</p>
+    <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
+  </header>
+
+  <div id="estado" class="estado">Cargando datos…</div>
+  <div id="contenido" style="display:none">
+
+    <!-- TOTAL GLOBAL -->
+    <section class="card global">
+      <h2>Total global en dólares</h2>
+      <div class="filas">
+        <div class="fila"><span>Total recaudado</span><span class="num" id="g-recaudado">—</span></div>
+        <div class="fila"><span>(−) Egresos</span><span class="num" id="g-egresos">—</span></div>
+        <div class="fila saldo"><span>Saldo disponible</span><span class="num" id="g-saldo">—</span></div>
+      </div>
+    </section>
+
+    <!-- POR MONEDA -->
+    <section class="card">
+      <h2>Recaudado por moneda</h2>
+      <div class="monedas" id="monedas"></div>
+    </section>
+
+    <!-- BUSCADOR -->
+    <section class="card">
+      <h2>Buscar mi donación</h2>
+      <input id="buscar" type="text" placeholder="Escribí tu nombre completo…" autocomplete="off" />
+      <div class="res" id="resultados"><div class="vacio">Escribí tu nombre para ver el estado de tu donación.</div></div>
+    </section>
+
+    <!-- EGRESOS -->
+    <section class="card">
+      <h2>En qué se gastó el dinero</h2>
+      <div id="egresos"></div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>Sistema creado por <a href="https://www.instagram.com/isiselinor/" target="_blank" rel="noopener">Isis Elinor</a></p>
+    <p>Responsable de la recaudación y administración:
+       <a href="https://www.instagram.com/almasofiasevilla/" target="_blank" rel="noopener">Alma Sofia Sevilla</a></p>
+    <p id="actualizado" style="font-size:.78rem"></p>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN
+   Pegá acá la URL de tu Apps Script publicado como app web.
+   Termina en /exec  (NO en /dev).
+   ============================================================ */
+var WEBAPP_URL = "PEGA_AQUI_LA_URL_DE_TU_APPS_SCRIPT/exec";
+
+var DATA = null;
+
+/* --- formato --- */
+function usd(n){
+  if(n===null||n===undefined) return "—";
+  return "US$ " + Number(n).toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function moneda(n){
+  if(n===null||n===undefined) return "—";
+  return Number(n).toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function esc(s){
+  return String(s===null||s===undefined?"":s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function quitarAcentos(s){
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
+}
+
+/* --- JSONP --- */
+function cargar(){
+  if(WEBAPP_URL.indexOf("PEGA_AQUI")!==-1){
+    mostrarError('Falta configurar la URL del Apps Script. Editá la variable WEBAPP_URL en index.html.');
+    return;
+  }
+  var cb = "cbDonaciones_" + Date.now();
+  window[cb] = function(data){
+    delete window[cb];
+    if(s.parentNode) s.parentNode.removeChild(s);
+    if(!data || data.ok===false){
+      mostrarError('No se pudieron leer los datos. ' + (data && data.error ? data.error : ''));
+      return;
+    }
+    DATA = data;
+    render();
+  };
+  var s = document.createElement("script");
+  s.src = WEBAPP_URL + (WEBAPP_URL.indexOf("?")===-1?"?":"&") + "callback=" + cb + "&t=" + Date.now();
+  s.onerror = function(){ mostrarError('No se pudo conectar con el Apps Script. Revisá que esté publicado para "Cualquier persona".'); };
+  document.body.appendChild(s);
+}
+
+function mostrarError(msg){
+  var e = document.getElementById("estado");
+  e.innerHTML = '<div class="error">'+esc(msg)+'</div>';
+}
+
+/* --- render --- */
+function render(){
+  document.getElementById("estado").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+
+  document.getElementById("g-recaudado").textContent = usd(DATA.totalRecaudadoUSD);
+  document.getElementById("g-egresos").textContent   = usd(DATA.totalEgresosUSD);
+  document.getElementById("g-saldo").textContent     = usd(DATA.saldoUSD);
+  document.getElementById("actualizado").textContent = "Actualizado: " + (DATA.actualizado||"");
+
+  // Monedas
+  var m = document.getElementById("monedas");
+  if(!DATA.porMoneda || !DATA.porMoneda.length){
+    m.innerHTML = '<div class="vacio">Todavía no hay donaciones verificadas.</div>';
+  } else {
+    m.innerHTML = DATA.porMoneda.map(function(x){
+      return '<div class="moneda">'+
+        '<div class="cod">'+esc(x.codigo)+'</div>'+
+        '<div class="orig">'+moneda(x.original)+'</div>'+
+        '<div class="usd">≈ '+usd(x.usd)+'</div>'+
+        '<div class="cnt">'+x.cantidad+' donación'+(x.cantidad===1?'':'es')+' verificada'+(x.cantidad===1?'':'s')+'</div>'+
+      '</div>';
+    }).join("");
+  }
+
+  // Egresos por categoría
+  var ce = document.getElementById("egresos");
+  if(!DATA.categorias || !DATA.categorias.length){
+    ce.innerHTML = '<div class="vacio">Todavía no se cargaron egresos.</div>';
+  } else {
+    ce.innerHTML = DATA.categorias.map(function(c){
+      var items = c.items.map(function(it){
+        return '<div class="egreso">'+
+          '<div class="det"><div>'+esc(it.comercio||it.descripcion||"Gasto")+'</div>'+
+            '<div class="sub">'+esc(it.fecha)+(it.descripcion&&it.comercio?' · '+esc(it.descripcion):'')+'</div></div>'+
+          '<div class="montobox"><div class="usd">'+usd(it.usd)+'</div>'+
+            '<div class="orig">'+esc(it.moneda)+' '+moneda(it.original)+'</div></div>'+
+        '</div>';
+      }).join("");
+      return '<details class="cat"><summary><span>'+esc(c.categoria)+'</span>'+
+        '<span class="tot">'+usd(c.totalUSD)+'</span></summary>'+
+        '<div class="items">'+items+'</div></details>';
+    }).join("");
+  }
+
+  // Buscador
+  var input = document.getElementById("buscar");
+  input.addEventListener("input", buscar);
+}
+
+function buscar(){
+  var q = quitarAcentos(document.getElementById("buscar").value);
+  var cont = document.getElementById("resultados");
+  if(!q){
+    cont.innerHTML = '<div class="vacio">Escribí tu nombre para ver el estado de tu donación.</div>';
+    return;
+  }
+  var hits = (DATA.donaciones||[]).filter(function(d){
+    return quitarAcentos(d.nombre).indexOf(q)!==-1;
+  });
+  if(!hits.length){
+    cont.innerHTML = '<div class="vacio">No encontramos donaciones con ese nombre.</div>';
+    return;
+  }
+  cont.innerHTML = hits.map(function(d){
+    var pill = d.verificada
+      ? '<span class="pill ok">✓ Verificada</span>'
+      : '<span class="pill pend">⏳ Pendiente</span>';
+    return '<div class="don">'+
+      '<div><div class="nombre">'+esc(d.nombre)+'</div>'+
+        '<div class="info">'+esc(d.metodo)+' · '+esc(d.fecha)+(d.codigo?' · cód. '+esc(d.codigo):'')+'</div>'+
+        '<div>'+pill+'</div></div>'+
+      '<div class="montobox"><div class="monto">'+esc(d.moneda)+' '+moneda(d.monto)+'</div>'+
+        '<div class="info">≈ '+usd(d.usd)+'</div></div>'+
+    '</div>';
+  }).join("");
+}
+
+cargar();
+</script>
+</body>
+</html>
