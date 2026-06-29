@@ -72,6 +72,25 @@
   footer a:hover{text-decoration:underline}
   .estado{text-align:center;color:var(--suave);padding:10px}
   .error{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:10px;padding:12px;margin:12px 0}
+  /* cómo donar */
+  .como h2{text-align:center}
+  .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
+  .paso{text-align:center;padding:6px 8px}
+  .paso .n{width:42px;height:42px;border-radius:50%;background:var(--verde);color:#fff;font-weight:800;
+       display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.15rem;
+       box-shadow:0 3px 8px rgba(39,78,19,.25)}
+  .paso h3{margin:0 0 4px;font-size:1rem;color:var(--verde)}
+  .paso p{margin:0;font-size:.88rem;color:var(--suave)}
+  .leyenda{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:18px 0 4px;
+       font-size:.85rem;color:var(--suave);align-items:center}
+  .leyenda span.item{display:inline-flex;align-items:center;gap:6px}
+  .como .cta{text-align:center;margin-top:16px}
+  .como .cta .btn-donar{font-size:1rem;padding:12px 30px;margin:0}
+  @media(max-width:640px){
+    .pasos{grid-template-columns:1fr;gap:10px}
+    .paso{display:flex;text-align:left;gap:12px;align-items:flex-start}
+    .paso .n{margin:0;flex:0 0 auto}
+  }
 </style>
 </head>
 <body>
@@ -79,9 +98,44 @@
 
   <header class="top">
     <h1>Fondo de donaciones</h1>
-    <p>Transparencia en tiempo real — todo el dinero consolidado en dólares</p>
+    <p>Gracias por estar con Venezuela.</p>
     <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
   </header>
+
+  <!-- CÓMO DONAR (visible siempre, no depende de los datos) -->
+  <section class="card como">
+    <h2>¿Cómo donar? En 3 pasos</h2>
+    <div class="pasos">
+      <div class="paso">
+        <div class="n">1</div>
+        <div>
+          <h3>Pulsa "Quiero donar"</h3>
+          <p>Se abre un formulario. Completa tu nombre completo, el monto y el código de la operación.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="n">2</div>
+        <div>
+          <h3>Realiza tu aporte</h3>
+          <p>Transfiere o paga por el medio que prefieras y envía el formulario.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="n">3</div>
+        <div>
+          <h3>Sigue tu donación</h3>
+          <p>Busca tu nombre más abajo, en "Buscar mi donación", y revisa su estado.</p>
+        </div>
+      </div>
+    </div>
+    <div class="leyenda">
+      <span class="item"><span class="pill pend">⏳ Pendiente</span> la estamos confirmando</span>
+      <span class="item"><span class="pill ok">✓ Verificada</span> ya suma al fondo</span>
+    </div>
+    <div class="cta">
+      <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
+    </div>
+  </section>
 
   <div id="estado" class="estado">Cargando datos…</div>
   <div id="contenido" style="display:none">
@@ -105,8 +159,8 @@
     <!-- BUSCADOR -->
     <section class="card">
       <h2>Buscar mi donación</h2>
-      <input id="buscar" type="text" placeholder="Escribí tu nombre completo…" autocomplete="off" />
-      <div class="res" id="resultados"><div class="vacio">Escribí tu nombre para ver el estado de tu donación.</div></div>
+      <input id="buscar" type="text" placeholder="Escribe tu nombre completo…" autocomplete="off" />
+      <div class="res" id="resultados"><div class="vacio">Escribe tu nombre para ver el estado de tu donación.</div></div>
     </section>
 
     <!-- EGRESOS -->
@@ -235,7 +289,7 @@ function buscar(){
   var q = quitarAcentos(document.getElementById("buscar").value);
   var cont = document.getElementById("resultados");
   if(!q){
-    cont.innerHTML = '<div class="vacio">Escribí tu nombre para ver el estado de tu donación.</div>';
+    cont.innerHTML = '<div class="vacio">Escribe tu nombre para ver el estado de tu donación.</div>';
     return;
   }
   var hits = (DATA.donaciones||[]).filter(function(d){
