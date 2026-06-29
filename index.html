@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Donaciones — Transparencia del fondo</title>
+<title>Dona Directo a Civiles</title>
 <style>
   :root{
     --verde:#274e13; --verde-claro:#d9ead3; --verde-medio:#6aa84f;
@@ -15,8 +15,15 @@
        background:var(--bg);color:var(--texto);line-height:1.5}
   .wrap{max-width:920px;margin:0 auto;padding:16px}
   header.top{text-align:center;padding:28px 16px 8px}
-  header.top h1{margin:0 0 4px;font-size:1.6rem;color:var(--verde)}
-  header.top p{margin:0;color:var(--suave);font-size:.9rem}
+  .logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
+  .logo .emoji{font-size:1.8rem;line-height:1}
+  .logo h1{margin:0;font-size:1.6rem;font-weight:800;letter-spacing:.5px;color:var(--verde);text-transform:uppercase}
+  header.top p{margin:8px 0 0;color:var(--suave);font-size:.95rem}
+  @media(max-width:480px){
+    .logo{gap:8px}
+    .logo h1{font-size:1.2rem}
+    .logo .emoji{font-size:1.5rem}
+  }
   .btn-donar{display:inline-block;background:var(--verde);color:#fff;text-decoration:none;
        padding:14px 32px;border-radius:999px;font-weight:700;font-size:1.1rem;margin:18px 0 6px;
        box-shadow:0 4px 14px rgba(39,78,19,.25);transition:transform .1s,box-shadow .1s}
@@ -97,7 +104,7 @@
 <div class="wrap">
 
   <header class="top">
-    <h1>Fondo de donaciones</h1>
+    <div class="logo"><span class="emoji">🇻🇪</span><h1>Dona Directo a Civiles</h1></div>
     <p>Gracias por estar con Venezuela.</p>
     <a class="btn-donar" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Quiero donar</a>
   </header>
