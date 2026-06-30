@@ -102,6 +102,20 @@
     .paso{display:flex;text-align:left;gap:12px;align-items:flex-start}
     .paso .n{margin:0;flex:0 0 auto}
   }
+  /* registro de casos */
+  .necesita{text-align:center;border-style:dashed}
+  .necesita h2{border-bottom:none;text-align:center;margin-bottom:8px}
+  .necesita p{margin:0 auto 16px;max-width:560px;color:var(--suave);font-size:.92rem}
+  .btn-registrar{display:inline-block;border:2px solid var(--verde);color:var(--verde);background:transparent;
+       text-decoration:none;padding:11px 26px;border-radius:999px;font-weight:700;font-size:1rem;transition:all .12s}
+  .btn-registrar:hover{background:var(--verde);color:#fff}
+  /* botón flotante (sigue el scroll) */
+  .fab{position:fixed;right:18px;bottom:18px;z-index:999;background:var(--verde);color:#fff;text-decoration:none;
+       padding:12px 20px;border-radius:999px;font-weight:700;font-size:.95rem;
+       box-shadow:0 6px 18px rgba(39,78,19,.4);display:inline-flex;align-items:center;gap:6px;
+       transition:transform .12s,box-shadow .12s}
+  .fab:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(39,78,19,.5)}
+  @media(max-width:480px){.fab{right:12px;bottom:12px;padding:11px 16px;font-size:.9rem}}
 </style>
 </head>
 <body>
@@ -153,6 +167,13 @@
     </div>
   </section>
 
+  <!-- REGISTRO DE CASOS (beneficiarios) -->
+  <section class="card necesita">
+    <h2 data-i18n="needTitle">¿Conocés a alguien en Venezuela que necesite ayuda?</h2>
+    <p data-i18n="needText">Estamos registrando casos para enviar fondos de forma centralizada. Para validar cada caso y mantener la gestión transparente, el registro debe incluir un Instagram público (es el requisito para verificar). Completá el formulario para postularte o derivar a alguien.</p>
+    <a class="btn-registrar" data-i18n="needBtn" href="https://forms.gle/S4Cb6qQUXF1B5AzM9" target="_blank" rel="noopener">Registrar un caso</a>
+  </section>
+
   <div id="estado" class="estado" data-i18n="loading">Cargando datos…</div>
   <div id="contenido" style="display:none">
 
@@ -196,6 +217,9 @@
 
 </div>
 
+<!-- Botón flotante de donación (sigue el scroll) -->
+<a class="fab" data-i18n="fabDonate" href="https://forms.gle/qXD9SztGcjHgGUtT6" target="_blank" rel="noopener">💚 Donar</a>
+
 <script>
 /* ============================================================
    CONFIGURACIÓN
@@ -223,6 +247,10 @@ var I18N = {
     pillOk: "✓ Verificada",
     legendPend: "la estamos confirmando",
     legendOk: "ya suma al fondo",
+    needTitle: "¿Conocés a alguien en Venezuela que necesite ayuda?",
+    needText: "Estamos registrando casos para enviar fondos de forma centralizada. Para validar cada caso y mantener la gestión transparente, el registro debe incluir un Instagram público (es el requisito para verificar). Completá el formulario para postularte o derivar a alguien.",
+    needBtn: "Registrar un caso",
+    fabDonate: "💚 Donar",
     loading: "Cargando datos…",
     globalTitle: "Total global en dólares",
     gRaised: "Total recaudado",
@@ -261,6 +289,10 @@ var I18N = {
     pillOk: "✓ Verified",
     legendPend: "we're confirming it",
     legendOk: "already counts toward the fund",
+    needTitle: "Do you know someone in Venezuela who needs help?",
+    needText: "We're registering cases to send funds in a centralized way. To validate each case and keep the process transparent, the registration must include a public Instagram (it's the requirement to verify). Fill out the form to apply or refer someone.",
+    needBtn: "Register a case",
+    fabDonate: "💚 Donate",
     loading: "Loading data…",
     globalTitle: "Global total in dollars",
     gRaised: "Total raised",
